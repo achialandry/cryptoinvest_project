@@ -53,7 +53,12 @@ public class CurrencyItem {
     }
 
     public void setCurrencyLogo(String currencyLogo) {
-        this.currencyLogo = currencyLogo;
+        if(currencyLogo.contains("-")){
+            this.currencyLogo = currencyLogo.replace("-", "_");
+        }else{
+            this.currencyLogo = currencyLogo;
+        }
+
     }
 
     public String getCurrencyName() {
@@ -65,7 +70,7 @@ public class CurrencyItem {
     }
 
     public String getPrice() {
-        return mPrice;
+        return "$"+mPrice ;
     }
 
     public void setPrice(String price) {
@@ -105,7 +110,7 @@ public class CurrencyItem {
     }
 
     public String getChangePerHourPercent() {
-        return mChangePerHourPercent;
+        return mChangePerHourPercent + "%";
     }
 
     public void setChangePerHourPercent(String changePerHourPercent) {

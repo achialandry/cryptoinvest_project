@@ -12,6 +12,9 @@
     <color name="btn_login">#26ae90</color>
     <color name="btn_register">#26ae90</color>
     <color name="btn_login_bg">#eceef1</color>
+    <color name="background_home_page_currency">#eceef1</color>
+    <color name="color_of_bad_percent">#d8000e</color>
+    <color name="color_of_good_percent">#26ae90</color>
     <color name="btn_signup_txt">#eceef1</color>
     <color name="lbl_name">#33333e</color>
     <color name="btn_logut_bg">#ff6861</color>

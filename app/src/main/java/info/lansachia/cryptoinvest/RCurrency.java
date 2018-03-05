@@ -2,8 +2,8 @@ package info.lansachia.cryptoinvest;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,9 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by user on 3/1/2018.
@@ -40,32 +37,43 @@ public class RCurrency extends Fragment {
     public static final String TAG = "RCurrency";
 
     Context mContext;
+    RequestQueue requestQueue;
 //    CurrencyItemAdapter mCurrencyItemAdapter;
     public static final String URL_STRING = "https://api.coinmarketcap.com/v1/ticker/";
 
+    public RCurrency(){
+        //required blank constructor
+    }
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCurrencyItems = new ArrayList<>();
         Log.d(TAG, "onCreate Called");
-        requestData();
+
     }
 
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
+        requestData();
         //fragment inflater
         View view = inflater.inflate(R.layout.fragment_currency_home,container, false);
 
         //recycler view
         mRecyclerView = (RecyclerView) view.findViewById(R.id.currency_recycler_view);
-        mCurrencyItemAdapter = new CurrencyItemAdapter(getContext(), mCurrencyItems);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mCurrencyItemAdapter = new CurrencyItemAdapter(getActivity(), mCurrencyItems);
         mRecyclerView.setAdapter(mCurrencyItemAdapter);
 //        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 //        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setHasFixedSize(true);
 
-        mCurrencyItemAdapter.notifyDataSetChanged();
+
+
+
+
+
 
 //        mCurrencyItemAdapter = new CurrencyItemAdapter(getContext(), mCurrencyItems);
 //        mRecyclerView.setAdapter(mCurrencyItemAdapter);
@@ -80,6 +88,7 @@ public class RCurrency extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d(TAG, response.toString());
                         try {
                             JSONArray jsonArray = new JSONArray(response);
 //                            JSONObject jsonObject;
@@ -123,19 +132,9 @@ public class RCurrency extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.e("Crypto Invest", error + "failed");
                     }
-                }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("name",currencies);
-
-                return params;
-            }
-
-            //add request to the volley queue
-
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                });
+        //add request to the volley queue
+        requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
 
@@ -160,6 +159,7 @@ public class RCurrency extends Fragment {
 
                 mCurrencyItems.add(currencyItem);
             }
+            mCurrencyItemAdapter.notifyDataSetChanged();
             Log.d(TAG, "parseData Called");
         } catch (JSONException e) {
             e.printStackTrace();

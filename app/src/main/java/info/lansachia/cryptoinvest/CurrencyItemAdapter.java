@@ -1,6 +1,7 @@
 package info.lansachia.cryptoinvest;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +38,8 @@ public class CurrencyItemAdapter extends RecyclerView.Adapter<CurrencyItemAdapte
 
         //logo
 //        holder.mCurrencyLogo.setVisibility(View.VISIBLE);
-//
-//        //using Glide library to push logo to image view
+
+        //using Glide library to push logo to image view
 //        Glide.with(mContext).load(currencyItem.getCurrencyLogo()).into(holder.mCurrencyLogo);
 
     }
@@ -56,6 +57,7 @@ public class CurrencyItemAdapter extends RecyclerView.Adapter<CurrencyItemAdapte
         TextView mName;
         TextView mRecommendation;
         ImageView mCurrencyLogo;
+        String mImageName;
 
 
         public MyViewHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -66,25 +68,43 @@ public class CurrencyItemAdapter extends RecyclerView.Adapter<CurrencyItemAdapte
             mPrice = (TextView)itemView.findViewById(R.id.currency_price);
             mName = (TextView)itemView.findViewById(R.id.currency_name);
             mRecommendation = (TextView)itemView.findViewById(R.id.currency_recommendation);
-//            mCurrencyLogo= (ImageView)itemView.findViewById(R.id.currency_icon);
+            mCurrencyLogo= (ImageView)itemView.findViewById(R.id.currency_icon);
         }
 
+
         public void bind(CurrencyItem currencyItem){
+
+            //setting image logo
+            mImageName = "drawable/" + currencyItem.getCurrencyLogo();
+            int imageResource = mContext.getResources().getIdentifier(mImageName, null, mContext.getPackageName());
+//            Drawable image = ContextCompat.getDrawable(mContext, imageResource);
+            mCurrencyLogo.setImageResource(imageResource);
+
             //setting text to currency symbol
             mSymbol.setText(currencyItem.getSymbol());
-            mSymbol.setTextSize(17);
+            mSymbol.setTextSize(25);
 
             //currency name
             mName.setText(currencyItem.getCurrencyName());
-            mName.setTextSize(17);
+            mName.setTextSize(20);
 
             //currency prize
             mPrice.setText(currencyItem.getPrice());
-            mPrice.setTextSize(19);
+            mPrice.setTextSize(23);
 
             //recommendation
-            mRecommendation.setText(currencyItem.getChangePerHourPercent());
-            mRecommendation.setTextSize(13);
+
+
+            if (currencyItem.getChangePerHourPercent().contains("-")){
+                mRecommendation.setText( currencyItem.getChangePerHourPercent());
+                mRecommendation.setTextSize(19);
+                mRecommendation.setTextColor(ContextCompat.getColor(mContext,R.color.color_of_bad_percent));
+            }else {
+                mRecommendation.setText("+ " + currencyItem.getChangePerHourPercent());
+                mRecommendation.setTextSize(19);
+                mRecommendation.setTextColor(ContextCompat.getColor(mContext, R.color.color_of_good_percent));
+            }
+
 
         }
 
