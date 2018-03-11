@@ -85,10 +85,7 @@ public class LoginActivity extends AppCompatActivity  {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
-                Intent intent = new Intent(LoginActivity.this, info.lansachia.cryptoinvest.MainActivity.class);
-                finish();
-                startActivity(intent);
+                signInExistingUser(view);
             }
         });
 

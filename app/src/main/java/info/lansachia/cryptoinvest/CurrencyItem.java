@@ -1,10 +1,12 @@
 package info.lansachia.cryptoinvest;
 
+import java.io.Serializable;
+
 /**
  * Created by user on 3/1/2018.
  */
 
-public class CurrencyItem {
+public class CurrencyItem implements Serializable{
 
     //currency id for logo
     private  String currencyLogo;

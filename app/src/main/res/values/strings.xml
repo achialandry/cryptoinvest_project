@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Crypto Invest</string>
+    <string name="currency_list">Currencies</string>
     <string name="email">Email</string>
+    <string name="track_name">Track: </string>
+    <string name="track_value">$$</string>
+    <string name="set_notification">Currency Notification Settings</string>
+    <string name="confirm_notification_settings">Apply Setting</string>
+    <string name="search_hint">Search Currency</string>
     <string name="minimum_password">Password too short, enter a minimum of 6 characters!</string>
     <string name="auth_failed">Authentication failed, check your email and password or sign up</string>
     <string name="change_email">Change Email</string>
